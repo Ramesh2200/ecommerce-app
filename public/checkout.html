@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout - AuraCraft</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <a href="index.html" class="brand-logo">
+      <div class="brand-icon">⚡</div>
+      <div class="brand-text">Aura<span>Craft</span></div>
+    </a>
+
+    <div class="nav-actions">
+      <select class="currency-select sort-select" style="padding: 0.45rem 0.7rem; font-size: 0.85rem; font-weight: 600; cursor: pointer;">
+        <option value="USD">🇺🇸 USD ($)</option>
+        <option value="INR">🇮🇳 INR (₹)</option>
+      </select>
+      <a href="index.html" class="nav-btn">← <span>Back to Shop</span></a>
+      <a href="orders.html" class="nav-btn">📦 <span>Orders</span></a>
+      <button id="authNavBtn" class="nav-btn" style="background: var(--gradient-accent); border: none; color: #fff;">
+        👤 <span>Sign In</span>
+      </button>
+      <div id="userMenuContainer" class="user-menu-container" style="display: none;">
+        <button id="userAvatarBtn" class="nav-btn">👤 <span>Account</span></button>
+        <div id="userDropdown" class="user-dropdown">
+          <div class="user-dropdown-header">
+            <div id="userDropdownName" class="user-dropdown-name">User Name</div>
+            <div id="userDropdownEmail" class="user-dropdown-email">user@example.com</div>
+          </div>
+          <a href="orders.html" class="dropdown-item">📦 My Orders</a>
+          <a href="#" id="logoutBtn" class="dropdown-item" style="color: var(--danger);">🚪 Log Out</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-container" style="padding-top: 2rem; max-width: 1100px; margin: 0 auto;">
+    <h1 style="font-family: var(--font-heading); font-size: 2.2rem; font-weight: 800; margin-bottom: 2rem;">Checkout & Place Order</h1>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2.5rem; align-items: start;">
+      
+      <!-- Shipping & Payment Form -->
+      <div>
+        <form id="checkoutForm" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 2rem;">
+          
+          <h3 style="font-family: var(--font-heading); font-size: 1.3rem; margin-bottom: 1.2rem; display: flex; align-items: center; gap: 0.5rem;">
+            <span>📍</span> Shipping Information
+          </h3>
+
+          <div class="form-group">
+            <label class="form-label">Full Name *</label>
+            <input type="text" id="fullName" class="form-input" required value="Ramesh K" placeholder="Ramesh K" />
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label class="form-label">Email Address *</label>
+              <input type="email" id="email" class="form-input" required value="ramesh.k@codealpha.tech" placeholder="ramesh.k@codealpha.tech" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Phone Number *</label>
+              <input type="tel" id="phone" class="form-input" required value="+91 98765 43210" placeholder="+91 98765 43210" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Street Address *</label>
+            <input type="text" id="addressLine" class="form-input" required value="100 Feet Road, Indiranagar" placeholder="100 Feet Road, Indiranagar" />
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label class="form-label">City *</label>
+              <input type="text" id="city" class="form-input" required value="Bengaluru" placeholder="Bengaluru" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Zip / Postal Code *</label>
+              <input type="text" id="zipCode" class="form-input" required value="560038" placeholder="560038" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Country *</label>
+            <input type="text" id="country" class="form-input" required value="India" />
+          </div>
+
+          <h3 style="font-family: var(--font-heading); font-size: 1.3rem; margin: 2rem 0 1.2rem 0; display: flex; align-items: center; gap: 0.5rem;">
+            <span>💳</span> Payment Method
+          </h3>
+
+          <div style="display: flex; flex-direction: column; gap: 0.8rem; margin-bottom: 1.8rem;">
+            <label style="display: flex; align-items: center; gap: 0.8rem; background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 0.8rem 1rem; cursor: pointer;">
+              <input type="radio" name="paymentMethod" value="Credit Card" checked />
+              <span style="font-weight: 600;">Credit / Debit Card</span>
+              <span style="margin-left: auto; font-size: 0.85rem; color: var(--text-muted);">Visa, Mastercard, Amex</span>
+            </label>
+
+            <label style="display: flex; align-items: center; gap: 0.8rem; background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 0.8rem 1rem; cursor: pointer;">
+              <input type="radio" name="paymentMethod" value="PayPal" />
+              <span style="font-weight: 600;">PayPal Instant Express</span>
+            </label>
+
+            <label style="display: flex; align-items: center; gap: 0.8rem; background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 0.8rem 1rem; cursor: pointer;">
+              <input type="radio" name="paymentMethod" value="UPI / Wallet" />
+              <span style="font-weight: 600;">UPI / Instant Wallet</span>
+            </label>
+          </div>
+
+          <button type="submit" class="btn-primary" style="width: 100%; justify-content: center; font-size: 1.1rem; padding: 1rem;">
+            🔒 Complete & Pay Order
+          </button>
+        </form>
+      </div>
+
+      <!-- Order Summary Card -->
+      <div style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 2rem;">
+        <h3 style="font-family: var(--font-heading); font-size: 1.3rem; margin-bottom: 1.2rem;">Order Summary</h3>
+        
+        <div id="checkoutItemsContainer" style="margin-bottom: 1.5rem;">
+          <!-- Injected dynamically -->
+        </div>
+
+        <!-- Promo Code Input -->
+        <div style="display: flex; gap: 0.6rem; margin-bottom: 1.5rem;">
+          <input type="text" id="promoCodeInput" class="form-input" placeholder="Promo code (e.g. CODEALPHA10)" style="font-size: 0.88rem;" />
+          <button type="button" id="applyPromoBtn" class="btn-secondary" style="padding: 0.6rem 1rem; font-size: 0.88rem;">Apply</button>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 0.6rem; font-size: 0.95rem; color: var(--text-secondary);">
+          <div style="display: flex; justify-content: space-between;">
+            <span>Subtotal</span>
+            <span id="checkoutSubtotal">$0.00</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; color: var(--success);">
+            <span>Promo Discount</span>
+            <span id="checkoutDiscount">-$0.00</span>
+          </div>
+          <div style="display: flex; justify-content: space-between;">
+            <span>Estimated Shipping</span>
+            <span id="checkoutShipping">$0.00</span>
+          </div>
+          <div style="display: flex; justify-content: space-between;">
+            <span>Estimated Tax (8%)</span>
+            <span id="checkoutTax">$0.00</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-family: var(--font-heading); font-size: 1.4rem; font-weight: 800; color: var(--text-primary); padding-top: 0.8rem; border-top: 1px dashed var(--border-color); margin-top: 0.5rem;">
+            <span>Total</span>
+            <span id="checkoutTotal">$0.00</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Order Success Confirmation Modal -->
+  <div id="orderSuccessModal" class="modal-overlay">
+    <div class="modal-card" style="text-align: center; max-width: 480px;">
+      <div style="font-size: 4rem; margin-bottom: 1rem;">🎉</div>
+      <h2 style="font-family: var(--font-heading); font-size: 1.8rem; font-weight: 800; color: var(--success); margin-bottom: 0.5rem;">Order Confirmed!</h2>
+      <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Thank you for shopping with AuraCraft. Your order has been placed successfully.</p>
+      
+      <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1rem; margin-bottom: 1.5rem; font-size: 0.95rem;">
+        <div style="color: var(--text-muted); font-size: 0.85rem;">Order Number</div>
+        <div id="confOrderNum" style="font-family: var(--font-heading); font-weight: 700; font-size: 1.3rem; color: var(--primary); margin: 0.2rem 0 0.8rem 0;">ORD-XXXX</div>
+        <div style="color: var(--text-muted); font-size: 0.85rem;">Total Paid</div>
+        <div id="confTotal" style="font-weight: 700; font-size: 1.1rem; color: var(--text-primary);">$0.00</div>
+      </div>
+
+      <div style="display: flex; gap: 1rem; justify-content: center;">
+        <a href="orders.html" class="btn-primary">View My Orders</a>
+        <a href="index.html" class="btn-secondary">Continue Shopping</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Auth Modal -->
+  <div id="authModal" class="modal-overlay">
+    <div class="modal-card">
+      <button id="closeAuthModalBtn" style="position: absolute; right: 1.2rem; top: 1.2rem; font-size: 1.2rem; color: var(--text-muted);">✕</button>
+      <h2 id="modalTitle" style="font-family: var(--font-heading); font-size: 1.6rem; font-weight: 700; margin-bottom: 1.5rem;">Sign In</h2>
+      <form id="authForm">
+        <div id="nameGroup" class="form-group" style="display: none;">
+          <label class="form-label">Full Name</label>
+          <input type="text" id="authName" class="form-input" placeholder="Alex Mercer" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email Address</label>
+          <input type="email" id="authEmail" class="form-input" required placeholder="alex@example.com" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <input type="password" id="authPassword" class="form-input" required placeholder="••••••••" />
+        </div>
+        <button type="submit" id="authSubmitBtn" class="btn-primary" style="width: 100%; justify-content: center; margin-top: 1rem;">Sign In</button>
+      </form>
+      <div id="authSwitchText" style="text-align: center; margin-top: 1.5rem; font-size: 0.9rem; color: var(--text-secondary);">
+        Don't have an account? <a href="#" id="switchAuthMode" style="color: var(--primary); font-weight: 600;">Sign up</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/currency.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/checkout.js"></script>
+</body>
+</html>

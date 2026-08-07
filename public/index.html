@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AuraCraft | Premium Modern E-Commerce</title>
+  <meta name="description" content="Discover premium electronics, audio gear, wearables and lifestyle goods on AuraCraft. Fast shipping and smooth checkout.">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <a href="index.html" class="brand-logo">
+      <div class="brand-icon">⚡</div>
+      <div class="brand-text">Aura<span>Craft</span></div>
+    </a>
+
+    <!-- Live Search -->
+    <div class="nav-search-container">
+      <span class="nav-search-icon">🔍</span>
+      <input type="text" id="searchInput" class="nav-search-input" placeholder="Search premium headphones, watches, devices..." />
+    </div>
+
+    <!-- Actions -->
+    <div class="nav-actions">
+      <select class="currency-select sort-select" style="padding: 0.45rem 0.7rem; font-size: 0.85rem; font-weight: 600; cursor: pointer;">
+        <option value="USD">🇺🇸 USD ($)</option>
+        <option value="INR">🇮🇳 INR (₹)</option>
+      </select>
+      <a href="admin.html" class="nav-btn" title="Admin Dashboard">⚙️ <span>Admin</span></a>
+      <a href="orders.html" class="nav-btn" title="My Orders">📦 <span>Orders</span></a>
+      
+      <button id="cartNavBtn" class="nav-btn" title="Shopping Cart">
+        🛒 <span>Cart</span>
+        <span class="cart-badge" style="display: none;">0</span>
+      </button>
+
+      <button id="authNavBtn" class="nav-btn" style="background: var(--gradient-accent); border: none; color: #fff;">
+        👤 <span>Sign In</span>
+      </button>
+
+      <div id="userMenuContainer" class="user-menu-container" style="display: none;">
+        <button id="userAvatarBtn" class="nav-btn">
+          👤 <span id="userNameBtnText">Account</span>
+        </button>
+        <div id="userDropdown" class="user-dropdown">
+          <div class="user-dropdown-header">
+            <div id="userDropdownName" class="user-dropdown-name">User Name</div>
+            <div id="userDropdownEmail" class="user-dropdown-email">user@example.com</div>
+          </div>
+          <a href="orders.html" class="dropdown-item">📦 My Orders</a>
+          <a href="#" id="logoutBtn" class="dropdown-item" style="color: var(--danger);">🚪 Log Out</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Banner -->
+  <section class="hero-banner">
+    <div class="hero-content">
+      <div class="hero-tag">✨ Summer 2026 Collection</div>
+      <h1 class="hero-title">Elevate Your Lifestyle with Next-Gen Tech</h1>
+      <p class="hero-subtitle">Discover curated premium audio, smart wearables, and artisan craftsmanship designed for perfection.</p>
+      <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+        <a href="#shop" class="btn-primary">Explore Products →</a>
+        <a href="checkout.html" class="btn-secondary">Express Checkout</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Filter & Sort Bar -->
+  <section id="shop" class="filter-bar">
+    <div class="category-chips" id="categoryChips">
+      <!-- Loaded dynamically -->
+    </div>
+    
+    <div class="filter-controls">
+      <label style="font-size: 0.85rem; color: var(--text-muted);">Sort By:</label>
+      <select id="sortSelect" class="sort-select">
+        <option value="default">Featured</option>
+        <option value="price_asc">Price: Low to High</option>
+        <option value="price_desc">Price: High to Low</option>
+        <option value="rating_desc">Highest Rated</option>
+        <option value="newest">Newest Arrivals</option>
+      </select>
+    </div>
+  </section>
+
+  <!-- Main Product Grid -->
+  <main class="main-container">
+    <div id="productsGrid" class="products-grid">
+      <!-- Loaded dynamically via app.js -->
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer style="background: var(--bg-surface); border-top: 1px solid var(--border-color); padding: 3rem 2rem 2rem 2rem; margin-top: auto;">
+    <div style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2rem; margin-bottom: 2rem;">
+      <div>
+        <div class="brand-logo" style="margin-bottom: 1rem;">
+          <div class="brand-icon">⚡</div>
+          <div class="brand-text">Aura<span>Craft</span></div>
+        </div>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">Modern e-commerce platform delivering high quality tech products worldwide.</p>
+      </div>
+
+      <div>
+        <h4 style="font-family: var(--font-heading); margin-bottom: 1rem;">Quick Links</h4>
+        <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.9rem; color: var(--text-secondary);">
+          <li><a href="index.html">Product Listing</a></li>
+          <li><a href="orders.html">Order Status</a></li>
+          <li><a href="checkout.html">Shopping Cart</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 style="font-family: var(--font-heading); margin-bottom: 1rem;">Promotions</h4>
+        <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.5rem;">Use promo code <strong style="color: var(--primary);">CODEALPHA10</strong> for 10% OFF at checkout!</p>
+        <p style="font-size: 0.85rem; color: var(--text-secondary);">Use code <strong style="color: var(--primary);">WELCOME20</strong> for 20% OFF!</p>
+      </div>
+    </div>
+    <div style="border-top: 1px solid var(--border-color); padding-top: 1.5rem; text-align: center; font-size: 0.85rem; color: var(--text-muted);">
+      © 2026 AuraCraft E-Commerce | Built for CodeAlpha Project (www.codealpha.tech)
+    </div>
+  </footer>
+
+  <!-- Slide-Over Cart Drawer -->
+  <div id="cartDrawerOverlay" class="cart-drawer-overlay"></div>
+  <aside id="cartDrawer" class="cart-drawer">
+    <div class="cart-header">
+      <h3 class="cart-title">Your Cart</h3>
+      <button id="closeCartDrawerBtn" class="close-btn">✕</button>
+    </div>
+    <div id="cartDrawerBody" class="cart-body">
+      <!-- Items dynamically injected -->
+    </div>
+    <div class="cart-footer">
+      <div class="cart-summary-row total">
+        <span>Subtotal:</span>
+        <span id="cartSubtotal">$0.00</span>
+      </div>
+      <a href="checkout.html" id="cartCheckoutBtn" class="btn-primary" style="text-align: center; justify-content: center;">
+        Proceed to Checkout →
+      </a>
+    </div>
+  </aside>
+
+  <!-- Auth Modal (Login / Sign Up) -->
+  <div id="authModal" class="modal-overlay">
+    <div class="modal-card">
+      <button id="closeAuthModalBtn" style="position: absolute; right: 1.2rem; top: 1.2rem; font-size: 1.2rem; color: var(--text-muted);">✕</button>
+      <h2 id="modalTitle" style="font-family: var(--font-heading); font-size: 1.6rem; font-weight: 700; margin-bottom: 1.5rem;">Sign In</h2>
+      
+      <form id="authForm">
+        <div id="nameGroup" class="form-group" style="display: none;">
+          <label class="form-label">Full Name</label>
+          <input type="text" id="authName" class="form-input" placeholder="Alex Mercer" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Email Address</label>
+          <input type="email" id="authEmail" class="form-input" required placeholder="alex@example.com" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <input type="password" id="authPassword" class="form-input" required placeholder="••••••••" />
+        </div>
+
+        <button type="submit" id="authSubmitBtn" class="btn-primary" style="width: 100%; justify-content: center; margin-top: 1rem;">Sign In</button>
+      </form>
+
+      <div id="authSwitchText" style="text-align: center; margin-top: 1.5rem; font-size: 0.9rem; color: var(--text-secondary);">
+        Don't have an account? <a href="#" id="switchAuthMode" style="color: var(--primary); font-weight: 600;">Sign up</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript Modules -->
+  <script src="js/currency.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard & Analytics - AuraCraft</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <a href="index.html" class="brand-logo">
+      <div class="brand-icon">⚡</div>
+      <div class="brand-text">Aura<span>Craft</span> <small style="font-size: 0.7rem; color: var(--primary); background: rgba(99,102,241,0.15); padding: 0.1rem 0.4rem; border-radius: var(--radius-sm); font-weight: 700; margin-left: 0.3rem;">ADMIN</small></div>
+    </a>
+
+    <div class="nav-actions">
+      <select class="currency-select sort-select" style="padding: 0.45rem 0.7rem; font-size: 0.85rem; font-weight: 600; cursor: pointer;">
+        <option value="USD">🇺🇸 USD ($)</option>
+        <option value="INR">🇮🇳 INR (₹)</option>
+      </select>
+
+      <a href="index.html" class="nav-btn">🛍️ <span>View Store</span></a>
+      <a href="orders.html" class="nav-btn">📦 <span>Orders</span></a>
+
+      <div id="userMenuContainer" class="user-menu-container" style="display: block;">
+        <button id="userAvatarBtn" class="nav-btn">👤 <span id="userDropdownName">Admin User</span></button>
+        <div id="userDropdown" class="user-dropdown">
+          <a href="orders.html" class="dropdown-item">📦 My Orders</a>
+          <a href="#" id="logoutBtn" class="dropdown-item" style="color: var(--danger);">🚪 Log Out</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-container" style="padding-top: 2rem; max-width: 1200px; margin: 0 auto;">
+    
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+      <div>
+        <h1 style="font-family: var(--font-heading); font-size: 2.2rem; font-weight: 800;">Analytics & Store Dashboard</h1>
+        <p style="color: var(--text-muted); font-size: 0.95rem;">Real-time sales metrics, order fulfillment, and product catalog management.</p>
+      </div>
+
+      <button id="openAddProductModalBtn" class="btn-primary">
+        <span>+</span> Add New Product
+      </button>
+    </div>
+
+    <!-- KPI Metric Cards Grid -->
+    <div class="dashboard-grid">
+      <div class="kpi-card">
+        <div class="kpi-header">
+          <span class="kpi-title">Total Gross Revenue</span>
+          <div class="kpi-icon">💰</div>
+        </div>
+        <div id="kpiRevenue" class="kpi-value">$0.00</div>
+        <div class="kpi-trend up">▲ +18.4% vs last month</div>
+      </div>
+
+      <div class="kpi-card" style="animation-delay: 0.1s;">
+        <div class="kpi-header">
+          <span class="kpi-title">Total Orders Placed</span>
+          <div class="kpi-icon">📦</div>
+        </div>
+        <div id="kpiOrders" class="kpi-value">0</div>
+        <div class="kpi-trend up">▲ +12.1% growth</div>
+      </div>
+
+      <div class="kpi-card" style="animation-delay: 0.2s;">
+        <div class="kpi-header">
+          <span class="kpi-title">Average Order Value</span>
+          <div class="kpi-icon">📊</div>
+        </div>
+        <div id="kpiAvgOrder" class="kpi-value">$0.00</div>
+        <div class="kpi-trend up">▲ Steady conversion</div>
+      </div>
+
+      <div class="kpi-card" style="animation-delay: 0.3s;">
+        <div class="kpi-header">
+          <span class="kpi-title">Inventory Stock Level</span>
+          <div class="kpi-icon">🏷️</div>
+        </div>
+        <div id="kpiStock" class="kpi-value">0 units</div>
+        <div class="kpi-trend up" style="color: var(--primary);">✔ Stock Healthy</div>
+      </div>
+    </div>
+
+    <!-- Analytics Charts & Top Products Grid -->
+    <div class="dashboard-content-grid">
+      
+      <!-- Revenue Trend SVG Chart -->
+      <div class="dashboard-panel">
+        <div class="panel-header">
+          <h3 class="panel-title">📈 Revenue Performance Trend</h3>
+          <span style="font-size: 0.8rem; color: var(--text-muted);">Real-time Telemetry</span>
+        </div>
+        <div style="height: 220px; width: 100%; position: relative;">
+          <svg viewBox="0 0 500 150" style="width: 100%; height: 100%; overflow: visible;">
+            <defs>
+              <linearGradient id="chartGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#6366f1" stop-opacity="0.4"/>
+                <stop offset="100%" stop-color="#6366f1" stop-opacity="0.0"/>
+              </linearGradient>
+            </defs>
+            <!-- Area Fill -->
+            <path d="M 0,130 Q 80,40 160,80 T 320,30 T 500,10 L 500,150 L 0,150 Z" fill="url(#chartGradient)" />
+            <!-- Animated Line -->
+            <path class="chart-line" d="M 0,130 Q 80,40 160,80 T 320,30 T 500,10" fill="none" stroke="url(#chartGradient)" stroke-width="3.5" style="stroke: #6366f1;" />
+            <!-- Glowing Points -->
+            <circle cx="160" cy="80" r="5" fill="#a855f7" />
+            <circle cx="320" cy="30" r="5" fill="#6366f1" />
+            <circle cx="500" cy="10" r="6" fill="#ec4899" />
+          </svg>
+        </div>
+      </div>
+
+      <!-- Top Selling Categories -->
+      <div class="dashboard-panel">
+        <div class="panel-header">
+          <h3 class="panel-title">🔥 Top Selling Categories</h3>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 1.2rem;">
+          <div>
+            <div style="display: flex; justify-content: space-between; font-size: 0.9rem; margin-bottom: 0.2rem;">
+              <span>Audio Equipment</span>
+              <strong style="color: var(--primary);">42%</strong>
+            </div>
+            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 42%;"></div></div>
+          </div>
+          <div>
+            <div style="display: flex; justify-content: space-between; font-size: 0.9rem; margin-bottom: 0.2rem;">
+              <span>Smart Wearables</span>
+              <strong style="color: var(--primary);">28%</strong>
+            </div>
+            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 28%;"></div></div>
+          </div>
+          <div>
+            <div style="display: flex; justify-content: space-between; font-size: 0.9rem; margin-bottom: 0.2rem;">
+              <span>Electronics & Accessories</span>
+              <strong style="color: var(--primary);">18%</strong>
+            </div>
+            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 18%;"></div></div>
+          </div>
+          <div>
+            <div style="display: flex; justify-content: space-between; font-size: 0.9rem; margin-bottom: 0.2rem;">
+              <span>Home & Living</span>
+              <strong style="color: var(--primary);">12%</strong>
+            </div>
+            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 12%;"></div></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Recent Orders Table Section -->
+    <div class="dashboard-panel" style="margin-bottom: 2.5rem;">
+      <div class="panel-header">
+        <h3 class="panel-title">📦 Recent Orders & Status Management</h3>
+        <a href="orders.html" style="font-size: 0.85rem; color: var(--primary); font-weight: 600;">View All Orders →</a>
+      </div>
+      <div class="data-table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Order Number</th>
+              <th>Customer</th>
+              <th>Total Amount</th>
+              <th>Status Action</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody id="recentOrdersBody">
+            <!-- Loaded dynamically via admin.js -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Product Inventory Management Section -->
+    <div class="dashboard-panel">
+      <div class="panel-header">
+        <h3 class="panel-title">🏷️ Catalog Products Inventory</h3>
+      </div>
+      <div class="data-table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>Category</th>
+              <th>Price</th>
+              <th>In Stock</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="adminProductsBody">
+            <!-- Loaded dynamically via admin.js -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Add Product Modal -->
+  <div id="addProductModal" class="modal-overlay">
+    <div class="modal-card" style="max-width: 520px;">
+      <button id="closeAddModalBtn" style="position: absolute; right: 1.2rem; top: 1.2rem; font-size: 1.2rem; color: var(--text-muted);">✕</button>
+      <h2 style="font-family: var(--font-heading); font-size: 1.6rem; font-weight: 700; margin-bottom: 1.5rem;">Add New Product</h2>
+      
+      <form id="addProductForm">
+        <div class="form-group">
+          <label class="form-label">Product Title *</label>
+          <input type="text" id="newTitle" class="form-input" required placeholder="e.g. Wireless Noise Canceling Headphones" />
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;" class="form-group">
+          <div>
+            <label class="form-label">Category *</label>
+            <select id="newCategory" class="form-input" required>
+              <option value="Audio">Audio</option>
+              <option value="Wearables">Wearables</option>
+              <option value="Accessories">Accessories</option>
+              <option value="Electronics">Electronics</option>
+              <option value="Home & Living">Home & Living</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label">Price ($ USD) *</label>
+            <input type="number" step="0.01" id="newPrice" class="form-input" required placeholder="49.99" />
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;" class="form-group">
+          <div>
+            <label class="form-label">Initial Stock *</label>
+            <input type="number" id="newStock" class="form-input" required value="50" />
+          </div>
+          <div>
+            <label class="form-label">Image URL *</label>
+            <input type="url" id="newImage" class="form-input" required placeholder="https://images.unsplash.com/..." />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Description *</label>
+          <textarea id="newDescription" class="form-input" rows="3" required placeholder="Detailed product specifications and highlights..."></textarea>
+        </div>
+
+        <button type="submit" class="btn-primary" style="width: 100%; justify-content: center; margin-top: 1rem;">
+          ✨ Add Product to Store
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/currency.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>
