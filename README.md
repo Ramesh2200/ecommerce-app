@@ -1,125 +1,124 @@
-# ⚡ AuraCraft - Modern Full-Stack E-Commerce Platform
+# AuraCraft - Premium E-Commerce Platform
 
-> Built for CodeAlpha Project ([www.codealpha.tech](https://www.codealpha.tech))
+> A full-stack, high-performance E-Commerce platform with dynamic product catalog, category filtering, cart management, checkout processing, order history, and admin dashboard.
 
-AuraCraft is a full-stack e-commerce web application featuring a modern glassmorphic frontend UI, Express.js (Node.js) REST API backend, relational SQLite database, JWT authentication, dynamic currency switching (USD ↔ INR), and an Admin Analytics Dashboard.
+[![Vercel Deployment](https://img.shields.io/badge/Vercel-Live--Production-emerald?logo=vercel)](https://ecommerce-app-ruby-rho.vercel.app)
+[![GitHub Repository](https://img.shields.io/badge/GitHub-Ramesh2200%2Fecommerce--app-indigo?logo=github)](https://github.com/Ramesh2200/ecommerce-app)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 ---
 
 ## 🌟 Key Features
 
-- **🏬 Product Catalog & Filtering**: Grid listing of products with instant category filter chips (*Audio, Wearables, Accessories, Electronics, Home & Living*), live search bar, and sorting (*Price Low-High / High-Low, Highest Rated, Newest*).
-- **💱 Real-time USD to INR Currency Switching**: Dynamic currency selector in the header toggling all catalog prices, cart totals, checkout summary, and order tracking between **USD ($)** and **INR (₹)** at 1 USD = ₹83.50 INR.
-- **🛒 Interactive Shopping Cart**: Slide-over drawer cart with quantity adjustments, item removal, local storage persistence, and promo discount application (`CODEALPHA10` - 10% OFF, `WELCOME20` - 20% OFF).
-- **📦 Order Processing & Checkout**: Pre-filled checkout shipping form (*Ramesh K, Bengaluru, India*), tax calculation, payment methods (Credit/Debit Card, PayPal, UPI), and order placement API with automatic stock deduction.
-- **📜 Order History Dashboard (`orders.html`)**: Customer order tracking screen displaying order numbers (e.g. `ORD-20260807-1317`), status badges (*Processing, Shipped, Delivered*), item breakdowns, shipping address, and payment method details.
-- **📊 Admin Analytics Dashboard (`admin.html`)**: Gross revenue metrics KPI cards, SVG sales performance trend chart, category sales progress bars, order status management, and full product CRUD operations.
-- **🔐 User Authentication**: Registration and Login modal dialogs powered by password hashing (`bcryptjs`) and JSON Web Tokens (`JWT`).
+- 🛒 **Dynamic Product Catalog**: High-resolution Unsplash product image galleries, price badges, stock counters, ratings, and feature lists.
+- 🔍 **Search & Category Filtering**: Real-time multi-criteria filtering by category (Audio, Wearables, Electronics, Home & Living, Accessories), price range, and search query.
+- 💳 **Seamless Checkout & Cart**: LocalStorage cart persistence, order summary calculations, address collection, and simulated payment processing.
+- 📦 **Order Management**: Order history log, status tracking (Processing, Completed), and order detail view.
+- 🔐 **Authentication & Roles**: Customer and Admin login/registration with demo credential support.
+
+---
+
+## 🔑 Demo Account Credentials
+
+| Attribute | Value |
+|---|---|
+| **Demo Email** | `codealpha123@gmail.com` |
+| **Demo Password** | `Code123` |
+| **Live App URL** | [https://ecommerce-app-ruby-rho.vercel.app](https://ecommerce-app-ruby-rho.vercel.app) |
+| **Live API Endpoint** | [https://ecommerce-app-ruby-rho.vercel.app/api/products](https://ecommerce-app-ruby-rho.vercel.app/api/products) |
+
+---
+
+## 📐 Architecture & Workflow Diagrams
+
+### System Architecture Diagram
+
+```mermaid
+graph TD
+    subgraph Frontend Storefront (Static HTML5 / CSS3 / JS)
+        Index[Homepage & Catalog - index.html]
+        Product[Product Details - product.html]
+        Checkout[Cart & Checkout - checkout.html]
+        Admin[Admin Dashboard - admin.html]
+    end
+
+    subgraph Backend API (Node.js + Express)
+        Server[Express Server - server.js / index.js]
+        AuthRouter[Auth Controller - /api/auth]
+        ProductRouter[Product Controller - /api/products]
+        OrderRouter[Order Controller - /api/orders]
+    end
+
+    subgraph Data & Storage Layer
+        DB[SQLite / Serverless Memory Store]
+    end
+
+    Index -- REST GET /api/products --> ProductRouter
+    Product -- REST GET /api/products/:id --> ProductRouter
+    Checkout -- REST POST /api/orders --> OrderRouter
+    Admin -- REST GET /api/orders --> OrderRouter
+    
+    AuthRouter --> DB
+    ProductRouter --> DB
+    OrderRouter --> DB
+```
+
+### E-Commerce Purchase & Order Workflow
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Customer as Shopper
+    participant Storefront as AuraCraft Web App
+    participant API as Express API Server
+    participant DB as Product & Order DB
+
+    Customer->>Storefront: Browse Catalog & Filter Category
+    Storefront->>API: GET /api/products?category=Audio
+    API->>DB: Query Products WHERE category = 'Audio'
+    DB-->>API: Return Product Records
+    API-->>Storefront: JSON Products Response
+
+    Customer->>Storefront: Add Product to Cart & Click Checkout
+    Storefront->>Customer: Display Cart Summary & Shipping Form
+    
+    Customer->>Storefront: Fill Address & Click "Place Order"
+    Storefront->>API: POST /api/orders (cartItems, total, shippingAddress)
+    API->>DB: INSERT INTO orders & order_items
+    DB-->>API: Order Created (order_number: ORD-XXXX)
+    API-->>Storefront: HTTP 201 Created (Order Receipt)
+    
+    Storefront-->>Customer: Render Order Confirmation Page
+```
 
 ---
 
 ## 🛠️ Technology Stack
 
-- **Frontend**: HTML5, Vanilla CSS3 (Custom Glassmorphism Design System, CSS Variables, Flexbox/Grid, Micro-Animations), Vanilla JavaScript (ES6 Modules).
-- **Backend API**: Node.js, Express.js REST API.
-- **Database**: SQLite3 (`database/ecommerce.db`).
-- **Auth**: JWT (JSON Web Tokens), `bcryptjs`.
-- **Documentation**: Markdown, Mermaid Diagrams.
+- **Frontend**: HTML5, Vanilla CSS3, JavaScript (ES6+), FontAwesome / Lucide Icons
+- **Backend**: Node.js, Express.js, CORS, Body-Parser
+- **Database**: SQLite3 / Node-SQLite / Serverless In-Memory Fallback
+- **Deployment**: Vercel Serverless Functions & Static Asset CDN
 
 ---
 
-## 📸 Screenshots & Documentation
+## 💻 Local Development Guide
 
-- **[Technical Documentation](docs/README.md)**
-- **[System Architecture & Workflow Diagrams](docs/workflow_diagrams.md)**
-
----
-
-## 🚀 Quick Start Guide
-
-### Prerequisites
-- Node.js (v16+ recommended)
-- npm
-
-### 1. Clone & Install Dependencies
+### 1. Clone Repository
 ```bash
-cd /Users/chinnesh/.gemini/antigravity-ide/scratch/ecommerce-app
+git clone https://github.com/Ramesh2200/ecommerce-app.git
+cd ecommerce-app
+```
+
+### 2. Install Dependencies
+```bash
 npm install
 ```
 
-### 2. Initialize Database (Optional)
-The database comes pre-seeded with sample products, initial reviews, and test accounts:
+### 3. Seed Database & Start Server
 ```bash
-node database/seed.js
+npm run seed
+npm start
 ```
-
-### 3. Start the Express Server
-```bash
-node server.js
-```
-
-### 4. Open in Web Browser
-Open your browser at:
-**[http://localhost:3030](http://localhost:3030)**
-
----
-
-## 🔑 Test Credentials
-
-- **Customer**: `jane@example.com` / `user123`
-- **Admin**: `admin@codealpha.tech` / `admin123`
-
----
-
-## 📁 Directory Structure
-
-```
-ecommerce-app/
-├── README.md               # Project overview & documentation
-├── server.js               # Express.js REST API server (Port 3030)
-├── package.json
-├── docs/                   # Documentation & Workflow Diagrams
-│   ├── README.md
-│   └── workflow_diagrams.md
-├── database/
-│   ├── db.js               # SQLite connection helper
-│   ├── seed.js             # Database schema & initial seed script
-│   ├── update-prices.js    # Price adjustment script
-│   └── ecommerce.db        # SQLite relational database file
-├── controllers/
-│   ├── authController.js
-│   ├── productController.js
-│   └── orderController.js
-├── routes/
-│   ├── authRoutes.js
-│   ├── productRoutes.js
-│   └── orderRoutes.js
-├── middleware/
-│   └── authMiddleware.js   # JWT authentication middleware
-└── public/
-    ├── index.html          # Main storefront catalog
-    ├── product.html        # Product details & gallery
-    ├── checkout.html       # Checkout & payment form
-    ├── orders.html         # User order tracking dashboard
-    ├── admin.html          # Admin analytics & inventory manager
-    ├── css/
-    │   └── styles.css      # Design system & keyframe micro-animations
-    ├── js/
-    │   ├── currency.js     # USD / INR currency conversion module
-    │   ├── api.js          # API fetch wrapper
-    │   ├── auth.js         # Auth state & modal controller
-    │   ├── cart.js         # Cart state & drawer UI controller
-    │   ├── app.js          # Catalog controller
-    │   ├── product-detail.js
-    │   ├── checkout.js
-    │   ├── orders.js
-    │   └── admin.js        # Admin metrics & CRUD controller
-    └── images/
-        └── hero-bg.png     # Futuristic hero banner background
-```
-
----
-
-## 📜 License & Credits
-
-Designed & developed for CodeAlpha Internship Project ([www.codealpha.tech](https://www.codealpha.tech)).
+- **Local Web Storefront**: `http://localhost:3030`
+- **Health Check Endpoint**: `http://localhost:3030/api/health`
