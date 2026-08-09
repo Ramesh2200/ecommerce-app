@@ -1,4 +1,6 @@
 {
-  "buildCommand": "echo 'Static build ready'",
-  "outputDirectory": "public"
+  "version": 2,
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.js" }
+  ]
 }
