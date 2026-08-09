@@ -35,28 +35,28 @@
 
 ```mermaid
 graph TD
-    subgraph Frontend Storefront (Static HTML5 / CSS3 / JS)
-        Index[Homepage & Catalog - index.html]
-        Product[Product Details - product.html]
-        Checkout[Cart & Checkout - checkout.html]
-        Admin[Admin Dashboard - admin.html]
+    subgraph Storefront ["Frontend Storefront - HTML5 and CSS3"]
+        Index["Homepage and Catalog"]
+        Product["Product Details"]
+        Checkout["Cart and Checkout"]
+        Admin["Admin Dashboard"]
     end
 
-    subgraph Backend API (Node.js + Express)
-        Server[Express Server - server.js / index.js]
-        AuthRouter[Auth Controller - /api/auth]
-        ProductRouter[Product Controller - /api/products]
-        OrderRouter[Order Controller - /api/orders]
+    subgraph BackendAPI ["Backend API - Node.js and Express"]
+        Server["Express Server"]
+        AuthRouter["Auth Controller"]
+        ProductRouter["Product Controller"]
+        OrderRouter["Order Controller"]
     end
 
-    subgraph Data & Storage Layer
-        DB[SQLite / Serverless Memory Store]
+    subgraph Storage ["Data and Storage Layer"]
+        DB["SQLite Serverless Memory Store"]
     end
 
-    Index -- REST GET /api/products --> ProductRouter
-    Product -- REST GET /api/products/:id --> ProductRouter
-    Checkout -- REST POST /api/orders --> OrderRouter
-    Admin -- REST GET /api/orders --> OrderRouter
+    Index --> ProductRouter
+    Product --> ProductRouter
+    Checkout --> OrderRouter
+    Admin --> OrderRouter
     
     AuthRouter --> DB
     ProductRouter --> DB
@@ -73,20 +73,20 @@ sequenceDiagram
     participant API as Express API Server
     participant DB as Product & Order DB
 
-    Customer->>Storefront: Browse Catalog & Filter Category
+    Customer->>Storefront: Browse Catalog and Filter Category
     Storefront->>API: GET /api/products?category=Audio
     API->>DB: Query Products WHERE category = 'Audio'
     DB-->>API: Return Product Records
     API-->>Storefront: JSON Products Response
 
-    Customer->>Storefront: Add Product to Cart & Click Checkout
-    Storefront->>Customer: Display Cart Summary & Shipping Form
+    Customer->>Storefront: Add Product to Cart and Click Checkout
+    Storefront->>Customer: Display Cart Summary and Shipping Form
     
-    Customer->>Storefront: Fill Address & Click "Place Order"
+    Customer->>Storefront: Fill Address and Click Place Order
     Storefront->>API: POST /api/orders (cartItems, total, shippingAddress)
-    API->>DB: INSERT INTO orders & order_items
-    DB-->>API: Order Created (order_number: ORD-XXXX)
-    API-->>Storefront: HTTP 201 Created (Order Receipt)
+    API->>DB: INSERT INTO orders and order_items
+    DB-->>API: Order Created
+    API-->>Storefront: HTTP 201 Created
     
     Storefront-->>Customer: Render Order Confirmation Page
 ```
