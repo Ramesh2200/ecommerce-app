@@ -37,21 +37,20 @@ app.use((req, res) => {
   }
 });
 
-// Initialize DB and start server
-async function startServer() {
-  try {
-    const db = await getDb();
-    console.log('Database connected successfully.');
+// Initialize DB
+getDb().then(() => {
+  console.log('Database connected successfully.');
+}).catch(err => {
+  console.error('Database connection warning:', err);
+});
 
-    app.listen(PORT, () => {
-      console.log(`=================================================`);
-      console.log(`🚀 AuraCraft E-Commerce Server running on port ${PORT}`);
-      console.log(`🌐 Local Web Interface: http://localhost:${PORT}`);
-      console.log(`=================================================`);
-    });
-  } catch (error) {
-    console.error('Failed to start server:', error);
-  }
+// If running directly (not in Vercel Serverless environment), start listening
+if (process.env.NODE_ENV !== 'production' && !process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`=================================================`);
+    console.log(`🚀 AuraCraft E-Commerce Server running on port ${PORT}`);
+    console.log(`=================================================`);
+  });
 }
 
-startServer();
+module.exports = app;
