@@ -150,7 +150,7 @@ function initMemoryStore() {
   ];
 
   const sampleUsers = [
-    { id: 1, name: 'Alex Mercer', email: 'admin@codealpha.tech', password: '$2a$10$YourHashedPasswordHere', role: 'admin', created_at: new Date().toISOString() },
+    { id: 1, name: 'CodeAlpha Instructor', email: 'codealpha123@gmail.com', password: '$2a$10$YourHashedPasswordHere', role: 'admin', created_at: new Date().toISOString() },
     { id: 2, name: 'Jane Doe', email: 'jane@example.com', password: '$2a$10$YourHashedPasswordHere', role: 'customer', created_at: new Date().toISOString() }
   ];
 
