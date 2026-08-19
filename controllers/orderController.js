@@ -114,6 +114,16 @@ async function createOrder(req, res) {
   }
 }
 
+function safeParseJson(data, fallback = {}) {
+  if (!data) return fallback;
+  if (typeof data === 'object') return data;
+  try {
+    return JSON.parse(data);
+  } catch (e) {
+    return fallback;
+  }
+}
+
 // Get logged in user's orders
 async function getUserOrders(req, res) {
   try {
@@ -124,12 +134,12 @@ async function getUserOrders(req, res) {
 
     // Attach items to each order
     const ordersWithItems = [];
-    for (const order of orders) {
+    for (const order of (orders || [])) {
       const items = await db.all('SELECT * FROM order_items WHERE order_id = ?', [order.id]);
       ordersWithItems.push({
         ...order,
-        shipping_address: JSON.parse(order.shipping_address),
-        items
+        shipping_address: safeParseJson(order.shipping_address, { fullName: 'Customer', city: '' }),
+        items: items || []
       });
     }
 
@@ -163,8 +173,8 @@ async function getOrderById(req, res) {
       success: true,
       order: {
         ...order,
-        shipping_address: JSON.parse(order.shipping_address),
-        items
+        shipping_address: safeParseJson(order.shipping_address, { fullName: 'Customer', city: '' }),
+        items: items || []
       }
     });
 
@@ -185,26 +195,26 @@ async function getDashboardMetrics(req, res) {
     const recentOrders = await db.all('SELECT * FROM orders ORDER BY created_at DESC LIMIT 5');
 
     const ordersWithItems = [];
-    for (const order of recentOrders) {
+    for (const order of (recentOrders || [])) {
       const items = await db.all('SELECT * FROM order_items WHERE order_id = ?', [order.id]);
       ordersWithItems.push({
         ...order,
-        shipping_address: JSON.parse(order.shipping_address),
-        items
+        shipping_address: safeParseJson(order.shipping_address, { fullName: 'Customer', city: '' }),
+        items: items || []
       });
     }
 
-    const totalRevenue = revenueRes.total_revenue || 0;
-    const totalOrders = revenueRes.total_orders || 0;
+    const totalRevenue = (revenueRes && revenueRes.total_revenue) || 0;
+    const totalOrders = (revenueRes && revenueRes.total_orders) || 0;
 
     return res.json({
       success: true,
       metrics: {
         total_revenue: parseFloat(totalRevenue.toFixed(2)),
         total_orders: totalOrders,
-        total_users: userCount.total_users || 0,
-        total_products: productCount.total_products || 0,
-        total_stock: productCount.total_stock || 0,
+        total_users: (userCount && userCount.total_users) || 0,
+        total_products: (productCount && productCount.total_products) || 0,
+        total_stock: (productCount && productCount.total_stock) || 0,
         avg_order_value: totalOrders > 0 ? parseFloat((totalRevenue / totalOrders).toFixed(2)) : 0
       },
       recentOrders: ordersWithItems
