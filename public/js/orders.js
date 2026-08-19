@@ -34,18 +34,18 @@ async function loadUserOrders() {
     const formattedTotal = typeof formatPrice === 'function' ? formatPrice(lastOrder.totalAmount) : `$${lastOrder.totalAmount.toFixed(2)}`;
     recentOrderCardHtml = `
       <div style="background: linear-gradient(135deg, rgba(34, 197, 94, 0.12) 0%, rgba(13, 17, 28, 0.95) 100%); border: 1px solid rgba(34, 197, 94, 0.4); border-radius: var(--radius-lg); padding: 1.5rem; margin-bottom: 2rem;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem; flex-wrap: wrap; gap: 0.8rem;">
           <div style="display: flex; align-items: center; gap: 0.8rem;">
             <span style="font-size: 1.8rem;">🎉</span>
             <div>
-              <span style="background: var(--success); color: #000; font-weight: 800; font-size: 0.75rem; padding: 0.15rem 0.6rem; border-radius: var(--radius-full);">RECENTLY CONFIRMED</span>
+              <span style="background: var(--success); color: #000; font-weight: 800; font-size: 0.75rem; padding: 0.15rem 0.6rem; border-radius: var(--radius-full);">RECENTLY CONFIRMED ORDER</span>
               <div style="font-family: var(--font-heading); font-weight: 800; font-size: 1.3rem; color: var(--primary); margin-top: 0.2rem;">${lastOrder.orderNumber}</div>
             </div>
           </div>
           <button id="viewLastOrderFullBtn" class="btn-primary" style="padding: 0.5rem 1rem; font-size: 0.85rem;">View Details</button>
         </div>
         <div style="color: var(--text-secondary); font-size: 0.9rem;">
-          Total: <strong>${formattedTotal}</strong> • Status: <span style="color: var(--success); font-weight: 700;">Processing</span>
+          Total Paid: <strong>${formattedTotal}</strong> • Status: <span style="color: var(--success); font-weight: 700;">Processing</span>
         </div>
       </div>
     `;
@@ -55,8 +55,8 @@ async function loadUserOrders() {
     container.innerHTML = htmlHeader + recentOrderCardHtml + `
       <div style="text-align: center; padding: 3rem 1rem; color: var(--text-muted); background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-lg);">
         <div style="font-size: 2.5rem; margin-bottom: 0.8rem;">🔒</div>
-        <h3 style="color: var(--text-primary); font-size: 1.3rem;">Sign in to view your order history</h3>
-        <p style="margin-top: 0.4rem; margin-bottom: 1.5rem;">Log in to automatically sync all your past orders across devices.</p>
+        <h3 style="color: var(--text-primary); font-size: 1.3rem;">Sign in to view full order history</h3>
+        <p style="margin-top: 0.4rem; margin-bottom: 1.5rem; color: var(--text-muted);">Sign in to automatically view all your past purchases or use the Order Tracker above.</p>
         <button onclick="openAuthModal('login')" class="btn-primary">Log In / Sign Up</button>
       </div>
     `;
@@ -79,9 +79,9 @@ async function loadUserOrders() {
         ordersHtml = `
           <div style="text-align: center; padding: 3rem 1rem; color: var(--text-muted); background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-lg);">
             <div style="font-size: 2.5rem; margin-bottom: 0.8rem;">📦</div>
-            <h3 style="color: var(--text-primary); font-size: 1.3rem;">No order history found</h3>
-            <p style="margin-top: 0.4rem; margin-bottom: 1.5rem;">You haven't placed any past orders under this account yet.</p>
-            <a href="index.html" class="btn-primary">Explore Products</a>
+            <h3 style="color: var(--text-primary); font-size: 1.3rem;">No past order history found</h3>
+            <p style="margin-top: 0.4rem; margin-bottom: 1.5rem; color: var(--text-muted);">You haven't placed any past orders under this account yet.</p>
+            <a href="index.html" class="btn-primary">Explore Shop Products</a>
           </div>
         `;
       } else {
@@ -143,7 +143,34 @@ async function loadUserOrders() {
       attachTrackerListeners();
     }
   } catch (error) {
-    container.innerHTML = htmlHeader + recentOrderCardHtml + `<p style="color: var(--danger); text-align: center;">Failed to load order history.</p>`;
+    console.error('Fetch orders failed:', error);
+
+    // Check if error is authentication / expired token error
+    const isAuthErr = error.message && (error.message.toLowerCase().includes('token') || error.message.toLowerCase().includes('auth') || error.message.toLowerCase().includes('login') || error.message.includes('401') || error.message.includes('403'));
+
+    if (isAuthErr) {
+      // Clear expired session
+      localStorage.removeItem('auracraft_token');
+      localStorage.removeItem('auracraft_user');
+      if (typeof updateAuthUI === 'function') updateAuthUI();
+
+      container.innerHTML = htmlHeader + recentOrderCardHtml + `
+        <div style="text-align: center; padding: 3rem 1rem; color: var(--text-muted); background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-lg);">
+          <div style="font-size: 2.5rem; margin-bottom: 0.8rem;">🔒</div>
+          <h3 style="color: var(--text-primary); font-size: 1.3rem;">Session Expired or Login Required</h3>
+          <p style="margin-top: 0.4rem; margin-bottom: 1.5rem; color: var(--text-muted);">Your login session expired. Please sign in again to view your full order history, or enter an Order # above.</p>
+          <button onclick="openAuthModal('login')" class="btn-primary">Sign In / Log In</button>
+        </div>
+      `;
+    } else {
+      container.innerHTML = htmlHeader + recentOrderCardHtml + `
+        <div style="text-align: center; padding: 2.5rem 1rem; color: var(--text-muted); background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-lg);">
+          <h4 style="color: var(--text-primary); font-size: 1.1rem; margin-bottom: 0.5rem;">Order History Unavailable</h4>
+          <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">Use the Track Confirmed Order box above to look up any order details using your Order Number.</p>
+          <button onclick="loadUserOrders()" class="btn-secondary" style="font-size: 0.85rem;">🔄 Retry Loading History</button>
+        </div>
+      `;
+    }
     attachTrackerListeners();
   }
 }
