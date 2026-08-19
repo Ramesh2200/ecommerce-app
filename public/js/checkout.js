@@ -121,15 +121,25 @@ document.addEventListener('DOMContentLoaded', () => {
           localStorage.removeItem('auracraft_cart');
           updateCartBadge();
 
+          // Store last confirmed order details in localStorage for index.html / orders pages
+          localStorage.setItem('auracraft_last_order', JSON.stringify({
+            orderNumber: res.order.order_number,
+            totalAmount: res.order.total_amount,
+            itemsCount: res.order.items_count || (cart ? cart.length : 1),
+            date: new Date().toISOString(),
+            shippingName: shippingAddress.fullName || '',
+            city: shippingAddress.city || ''
+          }));
+
           // Show confirmation screen modal
           const modal = document.getElementById('orderSuccessModal');
           if (modal) {
             document.getElementById('confOrderNum').textContent = res.order.order_number;
-            document.getElementById('confTotal').textContent = `$${res.order.total_amount.toFixed(2)}`;
+            document.getElementById('confTotal').textContent = typeof formatPrice === 'function' ? formatPrice(res.order.total_amount) : `$${res.order.total_amount.toFixed(2)}`;
             modal.classList.add('active');
           } else {
             showToast('Order placed successfully!', 'success');
-            window.location.href = 'orders.html';
+            window.location.href = `index.html?orderSuccess=true&orderNum=${encodeURIComponent(res.order.order_number)}`;
           }
         }
       } catch (error) {

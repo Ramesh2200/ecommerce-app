@@ -69,6 +69,9 @@
     </div>
   </section>
 
+  <!-- Order Confirmation Details Banner Container -->
+  <div id="orderConfirmationBannerContainer" style="max-width: 1200px; margin: 1.5rem auto 0 auto; padding: 0 1.5rem;"></div>
+
   <!-- Filter & Sort Bar -->
   <section id="shop" class="filter-bar">
     <div class="category-chips" id="categoryChips">
@@ -173,6 +176,17 @@
 
       <div id="authSwitchText" style="text-align: center; margin-top: 1.5rem; font-size: 0.9rem; color: var(--text-secondary);">
         Don't have an account? <a href="#" id="switchAuthMode" style="color: var(--primary); font-weight: 600;">Sign up</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Order Track / Confirmed Details Modal -->
+  <div id="orderTrackerModal" class="modal-overlay">
+    <div class="modal-card" style="max-width: 560px; width: 92%;">
+      <button id="closeTrackerModalBtn" style="position: absolute; right: 1.2rem; top: 1.2rem; font-size: 1.2rem; color: var(--text-muted); background: none; border: none; cursor: pointer;">✕</button>
+      <h2 style="font-family: var(--font-heading); font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; color: var(--text-primary);">Order Confirmed Details</h2>
+      <div id="trackerModalBody">
+        <!-- Loaded dynamically via app.js -->
       </div>
     </div>
   </div>

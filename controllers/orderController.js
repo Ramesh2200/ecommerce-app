@@ -235,10 +235,58 @@ async function updateOrderStatus(req, res) {
   }
 }
 
+// Track order by Order Number (Public / Confirmed details lookup)
+async function trackOrderByNumber(req, res) {
+  try {
+    const { orderNumber } = req.params;
+    const db = await getDb();
+
+    const order = await db.get('SELECT * FROM orders WHERE order_number = ?', [orderNumber]);
+
+    if (!order) {
+      return res.status(404).json({ success: false, message: `Order #${orderNumber} not found.` });
+    }
+
+    const items = await db.all('SELECT * FROM order_items WHERE order_id = ?', [order.id]);
+
+    let shippingAddress = {};
+    try {
+      shippingAddress = JSON.parse(order.shipping_address);
+    } catch (e) {
+      shippingAddress = {};
+    }
+
+    return res.json({
+      success: true,
+      order: {
+        id: order.id,
+        order_number: order.order_number,
+        total_amount: order.total_amount,
+        status: order.status,
+        payment_status: order.payment_status,
+        payment_method: order.payment_method,
+        created_at: order.created_at,
+        shipping_address: {
+          fullName: shippingAddress.fullName || 'Customer',
+          city: shippingAddress.city || '',
+          country: shippingAddress.country || ''
+        },
+        items
+      }
+    });
+
+  } catch (error) {
+    console.error('Error tracking order:', error);
+    return res.status(500).json({ success: false, message: 'Failed to lookup order.' });
+  }
+}
+
 module.exports = {
   createOrder,
   getUserOrders,
   getOrderById,
+  trackOrderByNumber,
   getDashboardMetrics,
   updateOrderStatus
 };
+

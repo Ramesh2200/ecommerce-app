@@ -5,6 +5,7 @@ const { authenticateToken } = require('../middleware/authMiddleware');
 
 router.post('/', authenticateToken, orderController.createOrder);
 router.get('/my-orders', authenticateToken, orderController.getUserOrders);
+router.get('/track/:orderNumber', orderController.trackOrderByNumber);
 router.get('/admin/metrics', orderController.getDashboardMetrics);
 router.patch('/:id/status', orderController.updateOrderStatus);
 router.get('/:id', authenticateToken, orderController.getOrderById);
